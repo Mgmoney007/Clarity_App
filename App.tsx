@@ -1,10 +1,16 @@
-
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { AppView } from './types';
-import Dashboard from './components/Dashboard';
-import Modules from './components/Modules';
-import Coach from './components/Coach';
 import { DashboardIcon, ModulesIcon, ChatIcon } from './constants';
+
+const Dashboard = React.lazy(() => import('./components/Dashboard'));
+const Modules = React.lazy(() => import('./components/Modules'));
+const Coach = React.lazy(() => import('./components/Coach'));
+
+const LoadingSpinner: React.FC = () => (
+    <div className="flex justify-center items-center h-full">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary"></div>
+    </div>
+);
 
 const App: React.FC = () => {
     const [currentView, setCurrentView] = useState<AppView>(AppView.Dashboard);
@@ -25,7 +31,9 @@ const App: React.FC = () => {
     return (
         <div className="h-screen bg-brand-bg text-brand-text-primary font-sans flex flex-col">
             <main className="flex-1 overflow-y-auto">
-                {renderView()}
+                <Suspense fallback={<LoadingSpinner />}>
+                    {renderView()}
+                </Suspense>
             </main>
             
             <nav className="flex-shrink-0 bg-brand-surface border-t border-gray-700 shadow-lg">

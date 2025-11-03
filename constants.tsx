@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { TimeMapData, Module } from './types';
 
@@ -39,12 +38,16 @@ export const ChevronRightIcon: React.FC<{ className?: string }> = ({ className }
 );
 
 // New Icons for TimeMap
-const TargetIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const TargetIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
 );
 
-const UsersIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const UsersIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+);
+
+export const LightbulbIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
 );
 
 
@@ -56,10 +59,10 @@ const MoneyIcon: React.FC<{ className?: string }> = ({ className }) => <svg xmln
 const TrophyIcon: React.FC<{ className?: string }> = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V22h4v-7.34"/><path d="M12 15c5.523 0 10-4.477 10-10H2c0 5.523 4.477 10 10 10Z"/></svg>;
 
 export const INITIAL_TIME_MAP_DATA: TimeMapData[] = [
-    { name: 'Focus', value: 40, color: '#8B5CF6', icon: TargetIcon },
-    { name: 'Energy', value: 25, color: '#34D399', icon: BoltIcon },
-    { name: 'Social', value: 20, color: '#F472B6', icon: UsersIcon },
-    { name: 'Rest', value: 15, color: '#60A5FA', icon: MoonIcon },
+    { name: 'Focus', value: 35, color: '#8B5CF6', icon: LightbulbIcon, description: 'Represents time spent on deep work or study.' },
+    { name: 'Energy', value: 25, color: '#34D399', icon: BoltIcon, description: 'Represents time dedicated to exercise and activities that boost energy.' },
+    { name: 'Rest', value: 25, color: '#60A5FA', icon: UsersIcon, description: 'Represents time for sleep, relaxation, and recharging.' },
+    { name: 'Social', value: 15, color: '#F472B6', icon: ChatIcon, description: 'Represents time for connecting with friends and family.' },
 ];
 
 export const MODULE_DATA: Module[] = [

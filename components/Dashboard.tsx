@@ -1,9 +1,10 @@
-
 import React from 'react';
 import Planner from './Planner';
 import TimeMap from './TimeMap';
 import EnergyCheck from './EnergyCheck';
 import FocusBot from './FocusBot';
+import Tips from './Tips';
+import Reflection from './Reflection';
 
 const Dashboard: React.FC = () => {
     return (
@@ -22,6 +23,12 @@ const Dashboard: React.FC = () => {
                 </div>
                 <TimeMap />
                 <EnergyCheck />
+                <div className="lg:col-span-2">
+                    <Tips />
+                </div>
+                <div className="lg:col-span-2">
+                    <Reflection />
+                </div>
                 <div className="lg:col-span-2">
                     <FocusBot />
                 </div>

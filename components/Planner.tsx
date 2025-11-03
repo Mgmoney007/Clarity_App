@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DayBlock, Activity, BlockType } from '../types';
 import { generateDailyPlan } from '../services/geminiService';
 import { BoltIcon, BrainIcon, MoonIcon } from '../constants';
@@ -24,10 +24,34 @@ const Planner: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [prompt, setPrompt] = useState("Math test prep and soccer practice today.");
     const [activities, setActivities] = useState<Map<string, boolean>>(new Map());
+    const [activeFocusSession, setActiveFocusSession] = useState<{ activityId: string; timeLeft: number; } | null>(null);
+
+    const POMODORO_DURATION = 25 * 60; // 25 minutes in seconds
+
+    useEffect(() => {
+        let timer: ReturnType<typeof setInterval>;
+        if (activeFocusSession && activeFocusSession.timeLeft > 0) {
+            timer = setInterval(() => {
+                setActiveFocusSession(prev => {
+                    if (prev && prev.timeLeft > 1) {
+                        return { ...prev, timeLeft: prev.timeLeft - 1 };
+                    }
+                    clearInterval(timer);
+                     const activityTitle = plan
+                        ?.flatMap(b => b.activities)
+                        .find(a => a.id === (prev ? prev.activityId : ''))?.title;
+                    alert(`Focus session for "${activityTitle || 'your task'}" is over! Time for a break. 🧘`);
+                    return null;
+                });
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [activeFocusSession, plan]);
 
     const handleGeneratePlan = async () => {
         setIsLoading(true);
         setError(null);
+        setActiveFocusSession(null); // Stop any active session when generating a new plan
         try {
             const result = await generateDailyPlan(prompt);
             setPlan(result);
@@ -47,6 +71,24 @@ const Planner: React.FC = () => {
             newActivities.set(id, !newActivities.get(id));
             return newActivities;
         });
+    };
+
+    const formatTime = (seconds: number) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    const handleStartFocus = (activityId: string) => {
+        if (activeFocusSession) {
+            alert("Another focus session is already in progress.");
+            return;
+        }
+        setActiveFocusSession({ activityId, timeLeft: POMODORO_DURATION });
+    };
+
+    const handleStopFocus = () => {
+        setActiveFocusSession(null);
     };
 
     return (
@@ -95,20 +137,47 @@ const Planner: React.FC = () => {
                             </div>
                             <ul className="mt-4 space-y-2">
                                 {block.activities.map((activity) => (
-                                    <li key={activity.id} className="flex items-center justify-between bg-gray-700/50 p-3 rounded-md">
-                                        <div className="flex items-center">
-                                            <input 
-                                                type="checkbox" 
-                                                id={activity.id}
-                                                checked={activities.get(activity.id) || false}
-                                                onChange={() => toggleActivity(activity.id)}
-                                                className="h-5 w-5 rounded bg-gray-600 border-gray-500 text-brand-primary focus:ring-brand-primary cursor-pointer"
-                                            />
-                                            <label htmlFor={activity.id} className={`ml-3 text-brand-text-primary ${activities.get(activity.id) ? 'line-through text-brand-text-secondary' : ''}`}>
-                                                {activity.title}
-                                            </label>
+                                    <li key={activity.id} className="bg-gray-700/50 p-3 rounded-md">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center">
+                                                <input 
+                                                    type="checkbox" 
+                                                    id={activity.id}
+                                                    checked={activities.get(activity.id) || false}
+                                                    onChange={() => toggleActivity(activity.id)}
+                                                    className="h-5 w-5 rounded bg-gray-600 border-gray-500 text-brand-primary focus:ring-brand-primary cursor-pointer"
+                                                />
+                                                <label htmlFor={activity.id} className={`ml-3 text-brand-text-primary ${activities.get(activity.id) ? 'line-through text-brand-text-secondary' : ''}`}>
+                                                    {activity.title}
+                                                </label>
+                                            </div>
+                                            <span className="text-sm text-brand-text-secondary flex-shrink-0 ml-2">{activity.time}</span>
                                         </div>
-                                        <span className="text-sm text-brand-text-secondary">{activity.time}</span>
+                                        {block.type === BlockType.Power && (
+                                            <div className="mt-3 pl-8">
+                                                {activeFocusSession?.activityId === activity.id ? (
+                                                    <div className="flex items-center gap-4">
+                                                        <p className="font-mono text-lg text-brand-primary font-bold">
+                                                            {formatTime(activeFocusSession.timeLeft)}
+                                                        </p>
+                                                        <button
+                                                            onClick={handleStopFocus}
+                                                            className="bg-red-500 hover:bg-red-600 text-white text-xs font-bold py-1 px-3 rounded-md transition duration-200"
+                                                        >
+                                                            Stop
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <button
+                                                        onClick={() => handleStartFocus(activity.id)}
+                                                        disabled={!!activeFocusSession}
+                                                        className="bg-brand-primary/80 hover:bg-brand-primary text-white text-xs font-bold py-1 px-3 rounded-md transition duration-200 disabled:bg-gray-600 disabled:cursor-not-allowed"
+                                                    >
+                                                        Start Focus Session
+                                                    </button>
+                                                )}
+                                            </div>
+                                        )}
                                     </li>
                                 ))}
                             </ul>

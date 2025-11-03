@@ -1,39 +1,7 @@
-import { GoogleGenAI, Type, Chat } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 import { DayBlock } from '../types';
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-
-let chat: Chat | null = null;
-
-export const startChat = () => {
-    chat = ai.chats.create({
-        model: 'gemini-2.5-pro',
-        config: {
-            systemInstruction: `You are Clarity, an AI-powered personal coach designed to help high-school students balance school, sports, social life, and rest.
-Your mission is to build focus, rhythm, and self-awareness — not control or guilt.
-You coach teens through short reflections, focus blocks, and weekly reviews using a friendly, gamified voice.
-Tone & Style:
-- Voice: Encouraging coach, not teacher.
-- Sentences: Short, clear, motivational.
-- Use emoji cues to keep tone light (⚡ 💬 🧠 💤 🎯).
-- Avoid formal phrasing or “productivity” jargon.
-- Speak like a supportive mentor or trainer.`,
-        },
-    });
-};
-
-export const sendMessageToChat = async (message: string): Promise<string> => {
-    if (!chat) {
-        startChat();
-    }
-    try {
-        const response = await chat!.sendMessage({ message });
-        return response.text;
-    } catch (error) {
-        console.error("Error sending message to chat:", error);
-        throw new Error("Failed to get a response from the coach. Please try again.");
-    }
-};
 
 export const generateDailyPlan = async (userPrompt: string): Promise<DayBlock[]> => {
     try {
@@ -104,7 +72,7 @@ export const generateChallenge = async (theme: string, coreSkill: string): Promi
             model: "gemini-2.5-pro",
             contents: `The module theme is "${theme}" and the core skill is "${coreSkill}".`,
             config: {
-                systemInstruction: "You are a coach creating a simple, one-week challenge for a teenager. The challenge should be actionable, clear, and directly related to the module's theme and skill. End the challenge description by mentioning they will earn a physical token from their kit for completing it.",
+                systemInstruction: "You are a coach creating a simple, one-week challenge for a teenager. The challenge should be actionable, clear, and directly related to the module's theme and skill. Use a friendly, encouraging tone with emojis to make it engaging. Format the output with newlines for readability. End the challenge description by mentioning they will earn a physical token from their kit for completing it.",
             }
         });
 

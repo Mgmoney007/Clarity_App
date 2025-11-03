@@ -42,13 +42,19 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ module, onClose }) => {
                     <h1 className="text-2xl font-bold text-brand-text-primary mt-1">{module.theme}</h1>
                 </header>
 
-                <div className="bg-gray-800 rounded-lg p-4 min-h-[120px] flex items-center justify-center text-center">
+                <div className="bg-gray-800 rounded-lg p-4 min-h-[120px] flex items-center justify-center">
                     {isLoading ? (
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-primary"></div>
                     ) : error ? (
-                        <p className="text-red-400">{error}</p>
+                        <p className="text-red-400 text-center">{error}</p>
                     ) : (
-                        <p className="text-brand-text-secondary italic">"{challengeText}"</p>
+                        <div className="text-brand-text-primary text-left w-full">
+                            {challengeText.split('\n').map((line, i) => (
+                                <p key={i} className="whitespace-pre-wrap mb-2 last:mb-0">
+                                    {line}
+                                </p>
+                            ))}
+                        </div>
                     )}
                 </div>
 

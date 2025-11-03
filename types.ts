@@ -26,6 +26,7 @@ export interface TimeMapData {
   value: number;
   color: string;
   icon: React.FC<{ className?: string }>;
+  description: string;
 }
 
 export interface EnergyLog {
