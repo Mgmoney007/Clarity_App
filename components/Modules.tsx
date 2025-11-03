@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Module } from '../types';
 import { MODULE_DATA, LockIcon, ChevronRightIcon } from '../constants';
 import ChallengeCard from './ChallengeCard';
+import ModuleThreeContent from './ModuleThreeContent';
 
 export const moduleColorStyles = [
     { border: 'border-violet-500', bg: 'bg-violet-500/10', text: 'text-violet-400', button: 'bg-violet-500 hover:bg-violet-600', hoverBorder: 'hover:border-violet-500/80' },
@@ -23,12 +24,23 @@ const Modules: React.FC = () => {
         }
     };
 
-    const handleCloseChallenge = () => {
+    const handleCloseModule = () => {
         setSelectedModule(null);
     };
     
+    const renderModuleContent = () => {
+        if (!selectedModule) return null;
+
+        switch (selectedModule.id) {
+            case 3:
+                return <ModuleThreeContent module={selectedModule} onClose={handleCloseModule} />;
+            default:
+                return <ChallengeCard module={selectedModule} onClose={handleCloseModule} />;
+        }
+    };
+
     if (selectedModule) {
-        return <ChallengeCard module={selectedModule} onClose={handleCloseChallenge} />;
+        return renderModuleContent();
     }
 
     return (

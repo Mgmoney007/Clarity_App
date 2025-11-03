@@ -68,8 +68,8 @@ export const INITIAL_TIME_MAP_DATA: TimeMapData[] = [
 export const MODULE_DATA: Module[] = [
     { id: 1, theme: 'Master Your Energy', coreSkill: 'Understand focus cycles', locked: false, icon: EnergyIcon },
     { id: 2, theme: 'Reclaim Your Time', coreSkill: '3-Block Day + 4D Map', locked: false, icon: TimeIcon },
-    { id: 3, theme: 'Train Your Brain', coreSkill: 'Deep work + dopamine discipline', locked: true, icon: BrainTrainIcon },
-    { id: 4, theme: 'Build Your Balance', coreSkill: 'Sport, social, and study alignment', locked: true, icon: BalanceIcon },
+    { id: 3, theme: 'Train Your Brain', coreSkill: 'Deep work + dopamine discipline', locked: false, icon: BrainTrainIcon },
+    { id: 4, theme: 'Build Your Balance', coreSkill: 'Sport, social, and study alignment', locked: false, icon: BalanceIcon },
     { id: 5, theme: 'Money = Time', coreSkill: 'Micro-mastery budgeting', locked: true, icon: MoneyIcon },
     { id: 6, theme: 'Win the Week', coreSkill: 'Reflection + goal system', locked: true, icon: TrophyIcon },
 ];
