@@ -139,7 +139,17 @@ Please follow consistent naming and formatting conventions.
   <img src="https://raw.githubusercontent.com/Mgmoney007/Clarity_App/main/public/preview.png" alt="App Preview" width="80%" style="border-radius:10px;"/>
 </div>
 
-> *More screenshots and demo coming soon.*
+## 🖼️ App Screenshot
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Mgmoney007/Clarity_App/13965dcee2ca18178874dc9cffa86e14cc1725e8/Clarity%20App%20Screenshot.png" 
+       alt="Clarity App Screenshot" 
+       width="85%" 
+       style="border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.2);"/>
+</div>
+
+> *A glimpse inside the Clarity App dashboard — your focus, energy, rest, and social balance visualized.*
+
 
 ---
 
