@@ -22,7 +22,7 @@ const Planner: React.FC = () => {
     const [plan, setPlan] = useState<DayBlock[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [prompt, setPrompt] = useState("Math test prep and soccer practice today.");
+    const [prompt, setPrompt] = useState("");
     const [activities, setActivities] = useState<Map<string, boolean>>(new Map());
     const [activeFocusSession, setActiveFocusSession] = useState<{ activityId: string; timeLeft: number; } | null>(null);
 

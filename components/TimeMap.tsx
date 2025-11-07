@@ -40,12 +40,12 @@ const renderCustomizedLabel = (props: PieLabelRenderProps) => {
 const TimeMap: React.FC = () => {
     const data: TimeMapData[] = INITIAL_TIME_MAP_DATA;
     const pieData = data.map(({ icon, ...rest }) => rest);
-    // FIX: Use `undefined` instead of `null` for activeIndex state to match `recharts` prop types.
-    const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
+    // FIX: Use -1 to indicate no active segment, which is a number type. This avoids potential type mismatches with `undefined` in some `recharts` versions.
+    const [activeIndex, setActiveIndex] = useState<number>(-1);
 
     const handleSegmentClick = (_: any, index: number) => {
-        // FIX: Toggle between the index and `undefined`.
-        setActiveIndex(index === activeIndex ? undefined : index);
+        // FIX: Toggle between the clicked index and -1 to select/deselect.
+        setActiveIndex(index === activeIndex ? -1 : index);
     };
 
     return (
@@ -75,8 +75,8 @@ const TimeMap: React.FC = () => {
                                     key={`cell-${index}`} 
                                     fill={entry.color} 
                                     style={{ transition: 'opacity 0.3s ease-in-out' }}
-                                    // FIX: Check against `undefined` for fill opacity.
-                                    fillOpacity={activeIndex === undefined || activeIndex === index ? 1 : 0.3}
+                                    // FIX: Check against -1 to determine segment opacity.
+                                    fillOpacity={activeIndex === -1 || activeIndex === index ? 1 : 0.3}
                                 />
                             ))}
                         </Pie>
